@@ -6,6 +6,7 @@ class ProductBase(BaseModel):
     description_product: str
     price: int
     discount_price: int
+    qty: int
     category_id: int
     article_number: int
     manufacturer_id: int

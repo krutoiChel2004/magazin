@@ -11,6 +11,7 @@ class Product(Base):
     description_product = Column(String, nullable=True)
     price = Column(Integer, nullable=False)
     discount_price = Column(Integer, nullable=False)
+    qty = Column(Integer, nullable=False)
     category_id = Column(Integer, ForeignKey("product_category.id"))
     article_number = Column(Integer, nullable=False, unique=True)
     manufacturer_id = Column(Integer, ForeignKey("manufacturer.id"))
