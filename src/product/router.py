@@ -17,7 +17,8 @@ from src.product.scheme import (ProductBase,
                                 NameProductUpdate)
 
 from src.product.service import (create_product_service,
-                                    get_product_service, 
+                                    get_product_all_service,
+                                    get_product_product_by_id_service,
                                     delete_product_service,
                                     update_product_description_service,
                                     update_product_price_service,
@@ -44,7 +45,12 @@ async def create_product(db: db_dependency, product: ProductBase):
 
 @router.get("/get_product")
 async def get_product(db: db_dependency):
-    return get_product_service(db)
+    return get_product_all_service(db)
+
+@router.get("/get_product_by_id/{product_id}")
+async def get_product_by_id(product_id: int, 
+                            db: db_dependency):
+    return get_product_product_by_id_service(product_id, db)
 
 @router.delete("/delete_product/{product_id}")
 async def delete_product(product_id: int, 
