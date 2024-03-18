@@ -5,13 +5,15 @@ from src.cart.scheme import ItemCartBase
 from src.cart.model import Cart
 from src.cart.model import ItemCart
 
+from src.product.service import get_product_by_id_service
+
 def check_cart_service(db: Session, 
                        user_id: int):
     return db.query(Cart).filter(Cart.user_id == user_id).first()
 
 def create_cart_service(db: Session, 
-                        user_JWT: dict):
-    user_id = user_JWT.get("id")
+                        user_id: int):
+    # user_id = user_JWT.get("id")
     if check_cart_service(db, user_id):
         return {"message": "Корзина уже существует"}
     db_cart = Cart(user_id=user_id)
@@ -24,6 +26,7 @@ def create_cart_service(db: Session,
 def add_quantity_item_cart_service(item: ItemCart,
                                     db: Session,
                                     qty: int = 1,):
+
     if item:    
         item.qty += qty
         db.commit()
@@ -33,7 +36,7 @@ def add_quantity_item_cart_service(item: ItemCart,
 def reduce_quantity_item_cart_service(item: ItemCart, 
                                     db: Session,
                                     qty: int = 1,):
-    if item:
+    if item and item.qty > 1:
         item.qty -= qty
         db.commit()
         db.refresh(item)
@@ -77,7 +80,6 @@ def get_cart_service(db: Session,
     cart_items = db.query(ItemCart).join(Cart).filter(Cart.user_id == user_id).all()
     if not cart_items:
         return {"message": "Корзина не существует"}
-    print(cart_items)
     cart_JSON = {"items": [{"id": item.id,
                             "product_id": item.product_id,
                             "qty": item.qty

@@ -29,10 +29,10 @@ router = APIRouter(
 )
 
 
-@router.post("/create_cart")
-async def create_cart(db: db_dependency, 
-                      user_JWT: dict = Depends(get_user_JWT)):
-    return create_cart_service(db, user_JWT)
+# @router.post("/create_cart")
+# async def create_cart(db: db_dependency, 
+#                       user_JWT: dict = Depends(get_user_JWT)):
+#     return create_cart_service(db, user_JWT)
 
 @router.post("/add_item_cart")
 async def add_item_cart(item_cart: ItemCartBase, 
@@ -53,7 +53,7 @@ async def reduce_quantity_item_cart(db: db_dependency,
     user_id = user_JWT.get("id")
     cart_id = check_cart_service(db, user_id).id
     item = check_product_in_cart(db, cart_id, product_id)
-    reduce_quantity_item_cart_service(item, db, qty)
+    return reduce_quantity_item_cart_service(item, db, qty)
 
 @router.put("/add_quantity_item_cart/{product_id}")
 async def add_quantity_item_cart(db: db_dependency,
@@ -63,5 +63,5 @@ async def add_quantity_item_cart(db: db_dependency,
     user_id = user_JWT.get("id")
     cart_id = check_cart_service(db, user_id).id
     item = check_product_in_cart(db, cart_id, product_id)
-    add_quantity_item_cart_service(item, db, qty)
+    return add_quantity_item_cart_service(item, db, qty)
     

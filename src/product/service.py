@@ -40,7 +40,7 @@ def create_product_service(db: Session,
 def get_product_all_service(db: Session):
     return db.query(Product).all()
 
-def get_product_product_by_id_service(product_id: int ,db: Session):
+def get_product_by_id_service(product_id: int ,db: Session):
     return db.query(Product).filter(Product.id == product_id).first()
 
 def delete_product_service(product_id: int,

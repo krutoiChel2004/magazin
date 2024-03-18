@@ -11,6 +11,8 @@ from starlette.responses import RedirectResponse
 
 from sqlalchemy.orm import Session
 
+from src.cart.service import create_cart_service
+
 from src.auth.schemas import (UserBase, 
                               Token, 
                               LoginData)
@@ -39,6 +41,10 @@ def create_user_service(user: UserBase, db: Session):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+
+    user = db.query(User).filter(User.mail==user.mail).first()
+
+    create_cart_service(db, user.id)
 
     
 
